@@ -1,27 +1,18 @@
 @import "tailwindcss";
 
+/* DumbGram: tema gelap dengan aksen gradien neon. */
 :root {
-  --background: #ffffff;
-  --foreground: #0f0f10;
-  --muted: #737373;
-  --surface: #fafafa;
-  --border: #e5e5e5;
-  --accent: #5b5bf6;
-  --accent-hover: #4646e0;
-  --danger: #ed4956;
-  --like: #ff3040;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #f5f5f5;
-    --muted: #a8a8a8;
-    --surface: #121212;
-    --border: #262626;
-    --accent: #7b7bff;
-    --accent-hover: #9696ff;
-  }
+  color-scheme: dark;
+  --background: #0b0b0b;
+  --foreground: #f5f5f5;
+  --muted: #7a7a7a;
+  --surface: #141414;
+  --surface-2: #1c1c1c;
+  --border: #262626;
+  --accent: #8a8dff;
+  --accent-hover: #a5a7ff;
+  --danger: #ff5c6c;
+  --like: #f2679f;
 }
 
 @theme inline {
@@ -29,12 +20,13 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
   --color-danger: var(--danger);
   --color-like: var(--like);
-  --font-sans: var(--font-geist-sans);
+  --font-sans: var(--font-montserrat);
   --font-mono: var(--font-geist-mono);
   --font-brand: var(--font-brand);
 }
@@ -42,7 +34,11 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
+}
+
+::selection {
+  background: rgba(138, 141, 255, 0.35);
 }
 
 /* Animasi hati saat double-tap */
@@ -62,33 +58,40 @@ body {
 }
 .animate-like { animation: like-bounce 0.35s ease-out; }
 
-.input {
-  @apply w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm outline-none transition placeholder:text-muted focus:border-muted;
-}
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-50;
-}
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-lg bg-border/70 px-4 py-2 text-sm font-semibold transition hover:bg-border disabled:opacity-50;
-}
-
-/* Halaman auth: selalu gelap, terlepas dari tema sistem */
-.theme-dark {
-  --background: #0b0b0b;
-  --foreground: #f5f5f5;
-  --muted: #6b6b6b;
-  --surface: #151515;
-  --border: #2a2a2a;
-  background: var(--background);
-  color: var(--foreground);
-}
-
 @utility brand-gradient {
   background-image: linear-gradient(90deg, #4fd6f7 0%, #8a8dff 35%, #f2679f 68%, #ffcf70 100%);
 }
-.text-brand-gradient {
+@utility brand-gradient-diagonal {
+  background-image: linear-gradient(135deg, #4fd6f7 0%, #8a8dff 35%, #f2679f 68%, #ffcf70 100%);
+}
+@utility text-brand-gradient {
   @apply brand-gradient bg-clip-text text-transparent;
 }
+@utility neon-glow {
+  filter: drop-shadow(0 0 14px rgba(138, 141, 255, 0.55));
+}
+
+/* Kartu dengan border gradien halus */
+@utility gradient-border {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(135deg, rgba(79, 214, 247, 0.6), rgba(138, 141, 255, 0.6), rgba(242, 103, 159, 0.6), rgba(255, 207, 112, 0.6)) border-box;
+}
+
+.input {
+  @apply w-full rounded-lg border border-border bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/25;
+}
+.btn-gradient,
+.btn-primary {
+  @apply brand-gradient inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-bold text-white shadow-[0_6px_24px_-10px_rgba(242,103,159,0.7)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:brightness-100;
+}
 .btn-gradient {
-  @apply brand-gradient inline-flex items-center justify-center gap-2 rounded-md px-8 py-2.5 text-sm font-bold text-white shadow-[0_6px_24px_-8px_rgba(242,103,159,0.6)] transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60;
+  @apply px-8;
+}
+.btn-secondary {
+  @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface-2 px-5 py-2.5 text-sm font-semibold transition hover:border-muted/60 hover:bg-border disabled:opacity-50;
+}
+@utility card {
+  @apply rounded-2xl border border-border bg-surface;
 }

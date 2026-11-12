@@ -8,7 +8,7 @@ export function RichText({ text }: { text: string }) {
     <>
       {parts.map((part, i) =>
         /^@[a-z0-9._]{3,30}$/i.test(part) ? (
-          <Link key={i} href={`/${part.slice(1).toLowerCase()}`} className="text-accent hover:underline">
+          <Link key={i} href={`/${part.slice(1).toLowerCase()}`} className="font-semibold text-accent hover:underline">
             {part}
           </Link>
         ) : (

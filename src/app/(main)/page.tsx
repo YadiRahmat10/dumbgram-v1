@@ -25,56 +25,63 @@ async function Home() {
   const posts = feed.length ? feed : await getExplorePosts(me.id, 20);
 
   return (
-    <div className="mx-auto flex max-w-[935px] justify-center gap-16 md:px-4 md:pt-8">
-      <section className="w-full max-w-[470px]">
+    <div className="mx-auto flex max-w-[960px] justify-center gap-10 sm:px-4 sm:pt-6 md:pt-10">
+      <section className="w-full max-w-[500px]">
         {!feed.length && (
-          <div className="mx-3 mb-6 rounded-lg border border-border p-5 text-center md:mx-0">
-            <p className="font-semibold">Selamat datang di dumbgram 👋</p>
-            <p className="mt-1 text-sm text-muted">
-              Ikuti orang lain untuk melihat foto mereka di sini, atau{" "}
-              <Link href="/create" className="font-semibold text-accent">
-                bagikan foto pertamamu
-              </Link>
-              .
+          <div className="gradient-border mx-3 mb-6 rounded-2xl p-6 sm:mx-0">
+            <p className="text-lg font-bold">
+              Selamat datang di <span className="text-brand-gradient">DumbGram</span> 👋
             </p>
+            <p className="mt-2 text-sm leading-relaxed text-muted">
+              Ikuti orang lain untuk melihat foto mereka di sini, atau bagikan karya pertamamu.
+            </p>
+            <Link href="/create" className="btn-primary mt-4">
+              Bagikan foto
+            </Link>
           </div>
         )}
         {!feed.length && posts.length > 0 && (
-          <h2 className="mb-2 px-3 text-sm font-semibold text-muted md:px-1">Post terbaru</h2>
+          <h2 className="mb-3 px-4 text-xs font-bold uppercase tracking-widest text-muted sm:px-1">
+            Post terbaru
+          </h2>
         )}
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </section>
 
-      <aside className="hidden w-80 shrink-0 pt-2 lg:block">
-        <div className="flex items-center gap-3">
-          <Link href={`/${me.username}`}>
-            <Avatar profile={me} size={44} />
-          </Link>
-          <div className="min-w-0 text-sm leading-tight">
-            <Link href={`/${me.username}`} className="block truncate font-semibold">
-              {me.username}
+      <aside className="hidden w-80 shrink-0 lg:block">
+        <div className="sticky top-10 space-y-4">
+          <div className="card flex items-center gap-3 p-4">
+            <Link href={`/${me.username}`}>
+              <Avatar profile={me} size={48} ring />
             </Link>
-            <p className="truncate text-muted">{me.full_name}</p>
-          </div>
-        </div>
-
-        {suggestions.length > 0 && (
-          <div className="mt-6">
-            <div className="mb-2 flex items-center justify-between text-sm">
-              <span className="font-semibold text-muted">Disarankan untuk kamu</span>
-              <Link href="/search" className="text-xs font-semibold hover:text-muted">
-                Lihat semua
+            <div className="min-w-0 text-sm leading-tight">
+              <Link href={`/${me.username}`} className="block truncate font-bold hover:text-accent">
+                {me.username}
               </Link>
+              <p className="mt-0.5 truncate text-muted">{me.full_name}</p>
             </div>
-            {suggestions.map((p) => (
-              <UserRow key={p.id} profile={p} viewerId={me.id} following={false} avatarSize={36} />
-            ))}
           </div>
-        )}
 
-        <p className="mt-8 text-xs text-muted">© {new Date().getFullYear()} dumbgram</p>
+          {suggestions.length > 0 && (
+            <div className="card p-4">
+              <div className="mb-2 flex items-center justify-between text-sm">
+                <span className="font-bold">Disarankan untukmu</span>
+                <Link href="/search" className="text-xs font-semibold text-accent hover:text-accent-hover">
+                  Lihat semua
+                </Link>
+              </div>
+              {suggestions.map((p) => (
+                <UserRow key={p.id} profile={p} viewerId={me.id} following={false} avatarSize={36} />
+              ))}
+            </div>
+          )}
+
+          <p className="px-1 text-xs text-muted">
+            © {new Date().getFullYear()} <span className="font-brand">DumbGram</span>
+          </p>
+        </div>
       </aside>
     </div>
   );

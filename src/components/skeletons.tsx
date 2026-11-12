@@ -1,16 +1,16 @@
-const box = "animate-pulse rounded bg-surface";
+const box = "animate-pulse rounded-md bg-surface-2";
 
 export function FeedSkeleton() {
   return (
-    <div className="mx-auto w-full max-w-[470px] space-y-8 px-3 pt-4 md:px-0 md:pt-8">
+    <div className="mx-auto w-full max-w-[500px] space-y-6 pt-4 sm:px-0 sm:pt-6 md:pt-10">
       {[0, 1].map((i) => (
-        <div key={i} className="space-y-3">
-          <div className="flex items-center gap-3">
-            <div className={`${box} h-8 w-8 rounded-full`} />
+        <div key={i} className="space-y-3 pb-4 sm:card sm:overflow-hidden">
+          <div className="flex items-center gap-3 px-4 pt-3">
+            <div className={`${box} h-9 w-9 rounded-full`} />
             <div className={`${box} h-3 w-32`} />
           </div>
-          <div className={`${box} aspect-square w-full rounded-md`} />
-          <div className={`${box} h-3 w-24`} />
+          <div className={`${box} aspect-square w-full rounded-none`} />
+          <div className={`${box} mx-4 h-3 w-24`} />
         </div>
       ))}
     </div>
@@ -19,9 +19,9 @@ export function FeedSkeleton() {
 
 export function GridSkeleton({ count = 12 }: { count?: number }) {
   return (
-    <div className="grid grid-cols-3 gap-0.5 md:gap-1">
+    <div className="grid grid-cols-3 gap-1 md:gap-2">
       {Array.from({ length: count }, (_, i) => (
-        <div key={i} className={`${box} aspect-square rounded-none`} />
+        <div key={i} className={`${box} aspect-square rounded-lg md:rounded-xl`} />
       ))}
     </div>
   );
@@ -45,16 +45,16 @@ export function ListSkeleton({ count = 6 }: { count?: number }) {
 
 export function ProfileSkeleton() {
   return (
-    <div className="mx-auto max-w-[935px] md:px-5 md:pt-8">
-      <div className="flex items-center gap-6 px-4 pb-8 pt-5 md:gap-20 md:px-12">
-        <div className={`${box} h-20 w-20 rounded-full md:h-[150px] md:w-[150px]`} />
+    <div className="mx-auto max-w-[960px] md:px-6 md:pt-10">
+      <div className="flex items-center gap-5 px-4 py-6 md:card md:gap-12 md:px-10 md:py-10">
+        <div className={`${box} h-20 w-20 rounded-full md:h-[152px] md:w-[152px]`} />
         <div className="flex-1 space-y-4">
           <div className={`${box} h-5 w-40`} />
           <div className={`${box} h-4 w-64 max-w-full`} />
           <div className={`${box} h-4 w-48 max-w-full`} />
         </div>
       </div>
-      <div className="border-t border-border pt-12">
+      <div className="mt-6 border-t border-border pt-6">
         <GridSkeleton count={9} />
       </div>
     </div>
@@ -63,7 +63,7 @@ export function ProfileSkeleton() {
 
 export function PostSkeleton() {
   return (
-    <div className="mx-auto grid max-w-[935px] md:grid-cols-[minmax(0,1fr)_380px] md:px-4 md:py-8">
+    <div className="mx-auto grid max-w-[1000px] md:grid-cols-[minmax(0,1fr)_380px] md:px-6 md:py-10">
       <div className={`${box} aspect-square rounded-none`} />
       <div className="space-y-4 p-4">
         <div className="flex items-center gap-3">

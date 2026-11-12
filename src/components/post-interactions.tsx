@@ -85,10 +85,12 @@ export function PostInteractions({
     } catch {}
   }
 
+  const iconBtn = "rounded-full p-2 transition hover:bg-surface-2";
+
   const image = (
     <div
       className={`relative select-none overflow-hidden ${
-        variant === "detail" ? "flex items-center justify-center bg-black md:h-full" : "bg-surface"
+        variant === "detail" ? "flex items-center justify-center bg-black md:h-full" : "bg-surface-2"
       }`}
       onClick={handleImageTap}
     >
@@ -114,12 +116,12 @@ export function PostInteractions({
 
   const actions = (
     <>
-      <div className="flex items-center gap-4 px-1 pt-3">
+      <div className="flex items-center gap-1 px-2 pt-2">
         <button
           type="button"
           onClick={() => toggleLike()}
           aria-label={state.liked ? "Batal suka" : "Suka"}
-          className="transition hover:opacity-60"
+          className={iconBtn}
         >
           <Heart
             key={bounce}
@@ -131,12 +133,12 @@ export function PostInteractions({
             type="button"
             aria-label="Komentar"
             onClick={() => document.getElementById(commentInputId)?.focus()}
-            className="transition hover:opacity-60"
+            className={iconBtn}
           >
             <MessageCircle className="h-6 w-6 -scale-x-100" />
           </button>
         ) : (
-          <Link href={`/p/${postId}`} aria-label="Komentar" className="transition hover:opacity-60">
+          <Link href={`/p/${postId}`} aria-label="Komentar" className={iconBtn}>
             <MessageCircle className="h-6 w-6 -scale-x-100" />
           </Link>
         )}
@@ -144,11 +146,11 @@ export function PostInteractions({
           type="button"
           onClick={copyLink}
           aria-label="Salin tautan"
-          className="relative transition hover:opacity-60"
+          className={`relative ${iconBtn}`}
         >
           <Link2 className="h-6 w-6" />
           {copied && (
-            <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-foreground px-2 py-1 text-xs text-background">
+            <span className="absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-md bg-surface-2 px-2 py-1 text-xs font-semibold text-foreground shadow-lg ring-1 ring-border">
               Tautan disalin
             </span>
           )}
@@ -157,13 +159,13 @@ export function PostInteractions({
           type="button"
           onClick={toggleSave}
           aria-label={state.saved ? "Hapus dari simpanan" : "Simpan"}
-          className="ml-auto transition hover:opacity-60"
+          className={`ml-auto ${iconBtn}`}
         >
-          <Bookmark className={`h-6 w-6 ${state.saved ? "fill-foreground" : ""}`} />
+          <Bookmark className={`h-6 w-6 ${state.saved ? "fill-accent text-accent" : ""}`} />
         </button>
       </div>
 
-      <p className="px-1 pt-2 text-sm font-semibold">
+      <p className="px-4 pt-1 text-sm font-semibold">
         {state.likeCount === 0 ? "Jadilah yang pertama menyukai" : `${formatCount(state.likeCount)} suka`}
       </p>
     </>
@@ -171,13 +173,13 @@ export function PostInteractions({
 
   if (variant === "detail") {
     return (
-      <div className="grid overflow-hidden border-border md:grid-cols-[minmax(0,1fr)_380px] md:rounded-md md:border">
+      <div className="grid overflow-hidden md:card md:grid-cols-[minmax(0,1fr)_380px]">
         <div className="md:hidden">{header}</div>
         {image}
         <div className="flex min-h-0 flex-col md:max-h-[85vh] md:border-l md:border-border">
           <div className="hidden md:block">{header}</div>
           <div className="order-2 min-h-0 flex-1 overflow-y-auto px-3 md:order-none md:py-3">{body}</div>
-          <div className="order-1 border-border px-3 pb-2 md:order-none md:border-t">{actions}</div>
+          <div className="order-1 border-border pb-2 md:order-none md:border-t">{actions}</div>
           <div className="order-3 md:order-none">{footer}</div>
         </div>
       </div>

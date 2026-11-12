@@ -7,10 +7,13 @@ export function FollowButton({
   targetId,
   following,
   size = "md",
+  followLabel = "Ikuti",
 }: {
   targetId: string;
   following: boolean;
   size?: "sm" | "md";
+  /** Teks tombol saat belum mengikuti, mis. "Ikuti balik". */
+  followLabel?: string;
 }) {
   const [, startTransition] = useTransition();
   const [isFollowing, setOptimistic] = useOptimistic(following);
@@ -28,11 +31,13 @@ export function FollowButton({
       <button
         type="button"
         onClick={toggle}
-        className={`text-xs font-semibold transition ${
-          isFollowing ? "text-foreground hover:text-muted" : "text-accent hover:text-foreground"
+        className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+          isFollowing
+            ? "border border-border text-foreground/80 hover:border-muted hover:text-foreground"
+            : "brand-gradient text-white hover:brightness-110"
         }`}
       >
-        {isFollowing ? "Mengikuti" : "Ikuti"}
+        {isFollowing ? "Mengikuti" : followLabel}
       </button>
     );
   }
@@ -43,7 +48,7 @@ export function FollowButton({
       onClick={toggle}
       className={isFollowing ? "btn-secondary min-w-28" : "btn-primary min-w-28"}
     >
-      {isFollowing ? "Mengikuti" : "Ikuti"}
+      {isFollowing ? "Mengikuti" : followLabel}
     </button>
   );
 }

@@ -5,9 +5,6 @@ import { useActionState } from "react";
 import { signIn, signUp } from "@/app/actions/auth";
 import { SubmitButton } from "@/components/submit-button";
 
-const inputClass =
-  "w-full rounded-md border border-border bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted focus:border-[#8a8dff] focus:ring-2 focus:ring-[#8a8dff]/25";
-
 export function AuthForm({ mode, notice }: { mode: "login" | "signup"; notice?: string }) {
   const [state, action] = useActionState(mode === "login" ? signIn : signUp, undefined);
   const isLogin = mode === "login";
@@ -25,18 +22,18 @@ export function AuthForm({ mode, notice }: { mode: "login" | "signup"; notice?: 
 
   return (
     <form action={action} className="flex flex-col gap-3">
-      <input className={inputClass} name="email" type="email" placeholder="Email" autoComplete="email" required />
+      <input className="input" name="email" type="email" placeholder="Email" autoComplete="email" required />
       {!isLogin && (
         <>
           <input
-            className={inputClass}
+            className="input"
             name="full_name"
             placeholder="Full name"
             autoComplete="name"
             maxLength={60}
           />
           <input
-            className={inputClass}
+            className="input"
             name="username"
             placeholder="Username"
             autoComplete="username"
@@ -48,7 +45,7 @@ export function AuthForm({ mode, notice }: { mode: "login" | "signup"; notice?: 
         </>
       )}
       <input
-        className={inputClass}
+        className="input"
         name="password"
         type="password"
         placeholder="Password"
@@ -67,7 +64,7 @@ export function AuthForm({ mode, notice }: { mode: "login" | "signup"; notice?: 
         <SubmitButton className="btn-gradient">{isLogin ? "Login" : "Register"}</SubmitButton>
         <Link
           href={isLogin ? "/signup" : "/login"}
-          className="text-sm font-semibold text-neutral-300 transition hover:text-white"
+          className="text-sm font-semibold text-foreground/80 transition hover:text-foreground"
         >
           {isLogin ? "Register" : "Login"}
         </Link>

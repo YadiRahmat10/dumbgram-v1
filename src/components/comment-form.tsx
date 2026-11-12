@@ -27,7 +27,7 @@ export function CommentForm({
     <form
       action={action}
       className={`flex items-center gap-2 ${
-        variant === "bordered" ? "border-t border-border px-3 py-3" : "px-1 pt-1"
+        variant === "bordered" ? "border-t border-border px-4 py-3" : "px-1 pt-1"
       }`}
     >
       <input
@@ -44,7 +44,7 @@ export function CommentForm({
         <button
           type="submit"
           disabled={pending}
-          className="text-sm font-semibold text-accent transition hover:text-foreground disabled:opacity-50"
+          className="text-brand-gradient text-sm font-bold transition hover:brightness-125 disabled:opacity-50"
         >
           Kirim
         </button>

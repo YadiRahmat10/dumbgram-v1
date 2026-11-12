@@ -58,17 +58,15 @@ export function CreatePostForm({ userId }: { userId: string }) {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border">
-      <div className="flex h-11 items-center justify-between border-b border-border px-4">
-        <span className="w-16" />
-        <h1 className="font-semibold">Buat post baru</h1>
-        <button
-          type="button"
-          onClick={submit}
-          disabled={!file || pending}
-          className="w-16 text-right text-sm font-semibold text-accent transition hover:text-foreground disabled:opacity-40"
-        >
-          {pending ? <Loader2 className="ml-auto h-4 w-4 animate-spin" /> : "Bagikan"}
+    <div className="card overflow-hidden">
+      <div className="flex items-center justify-between gap-4 border-b border-border px-5 py-3.5">
+        <div className="leading-tight">
+          <h1 className="font-bold">Buat post baru</h1>
+          <p className="text-xs text-muted">JPG, PNG, WEBP, atau GIF · maks 10 MB</p>
+        </div>
+        <button type="button" onClick={submit} disabled={!file || pending} className="btn-primary min-w-28">
+          {pending && <Loader2 className="h-4 w-4 animate-spin" />}
+          Bagikan
         </button>
       </div>
 
@@ -84,17 +82,22 @@ export function CreatePostForm({ userId }: { userId: string }) {
             setDragging(false);
             pick(e.dataTransfer.files?.[0]);
           }}
-          className={`flex aspect-square items-center justify-center bg-surface transition ${
-            dragging ? "bg-accent/10" : ""
+          className={`flex aspect-square items-center justify-center bg-background transition ${
+            dragging ? "bg-accent/10 ring-2 ring-inset ring-accent" : ""
           }`}
         >
           {preview ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img src={preview} alt="Pratinjau" className="h-full w-full object-contain" />
           ) : (
-            <div className="flex flex-col items-center gap-4 p-6 text-center">
-              <ImagePlus className="h-20 w-20 stroke-1" />
-              <p className="text-lg">Seret foto ke sini</p>
+            <div className="m-4 flex flex-1 flex-col items-center justify-center gap-4 self-stretch md:m-6 rounded-2xl border-2 border-dashed border-border p-6 text-center">
+              <span className="gradient-border rounded-full p-5">
+                <ImagePlus className="h-10 w-10 text-accent" strokeWidth={1.5} />
+              </span>
+              <div>
+                <p className="text-lg font-bold">Seret foto ke sini</p>
+                <p className="mt-1 text-sm text-muted">atau pilih langsung dari perangkatmu</p>
+              </div>
               <button type="button" className="btn-primary" onClick={() => inputRef.current?.click()}>
                 Pilih dari perangkat
               </button>
@@ -109,11 +112,11 @@ export function CreatePostForm({ userId }: { userId: string }) {
             placeholder="Tulis keterangan…"
             maxLength={2200}
             rows={6}
-            className="flex-1 resize-none bg-transparent p-4 text-sm outline-none placeholder:text-muted"
+            className="flex-1 resize-none bg-transparent p-5 text-sm leading-relaxed outline-none placeholder:text-muted"
           />
-          <div className="flex items-center justify-between border-t border-border px-4 py-2 text-xs text-muted">
+          <div className="flex items-center justify-between border-t border-border px-5 py-3 text-xs text-muted">
             {preview ? (
-              <button type="button" onClick={() => inputRef.current?.click()} className="font-semibold text-accent">
+              <button type="button" onClick={() => inputRef.current?.click()} className="font-semibold text-accent hover:text-accent-hover">
                 Ganti foto
               </button>
             ) : (

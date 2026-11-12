@@ -50,94 +50,105 @@ async function Profile({ params, searchParams }: PageProps<"/[username]">) {
     { label: "mengikuti", value: stats.following, href: `/${profile.username}/following` },
   ];
 
-  return (
-    <div className="mx-auto max-w-[935px] md:px-5 md:pt-8">
-      <header className="flex items-center gap-6 px-4 pt-5 md:gap-20 md:px-12 md:pb-10">
-        <Avatar profile={profile} size={150} className="hidden md:inline-block" />
-        <Avatar profile={profile} size={80} className="md:hidden" />
-
-        <section className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-3 md:gap-5">
-            <h1 className="truncate text-xl">{profile.username}</h1>
-            {isMe ? (
-              <Link href="/settings" className="btn-secondary">
-                Edit profil
-              </Link>
-            ) : (
-              <FollowButton targetId={profile.id} following={following} />
-            )}
-          </div>
-
-          <ul className="mt-5 hidden gap-10 md:flex">
-            {statItems.map((s) => (
-              <li key={s.label}>
-                {s.href ? (
-                  <Link href={s.href}>
-                    <b>{formatCount(s.value)}</b> {s.label}
-                  </Link>
-                ) : (
-                  <>
-                    <b>{formatCount(s.value)}</b> {s.label}
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-
-          <div className="mt-5 hidden text-sm md:block">
-            <ProfileBio profile={profile} />
-          </div>
-        </section>
-      </header>
-
-      <div className="px-4 py-4 text-sm md:hidden">
-        <ProfileBio profile={profile} />
-      </div>
-
-      <ul className="flex border-t border-border py-3 text-center text-sm md:hidden">
-        {statItems.map((s) => (
-          <li key={s.label} className="flex-1 leading-tight">
+  const stats3 = (
+    <ul className="grid grid-cols-3 gap-2 text-center">
+      {statItems.map((s) => {
+        const inner = (
+          <>
+            <b className="block text-lg leading-tight">{formatCount(s.value)}</b>
+            <span className="text-xs text-muted">{s.label}</span>
+          </>
+        );
+        return (
+          <li key={s.label}>
             {s.href ? (
-              <Link href={s.href}>
-                <b className="block">{formatCount(s.value)}</b>
-                <span className="text-muted">{s.label}</span>
+              <Link href={s.href} className="block rounded-xl bg-surface-2 px-3 py-2.5 transition hover:bg-border">
+                {inner}
               </Link>
             ) : (
-              <>
-                <b className="block">{formatCount(s.value)}</b>
-                <span className="text-muted">{s.label}</span>
-              </>
+              <div className="rounded-xl bg-surface-2 px-3 py-2.5">{inner}</div>
             )}
           </li>
-        ))}
-      </ul>
+        );
+      })}
+    </ul>
+  );
 
-      <nav className="flex justify-center gap-14 border-t border-border text-xs font-semibold uppercase tracking-widest">
-        <Link
-          href={`/${profile.username}`}
-          className={`-mt-px flex items-center gap-1.5 border-t py-4 ${
-            !showSaved ? "border-foreground" : "border-transparent text-muted"
-          }`}
-        >
+  return (
+    <div className="mx-auto max-w-[960px] md:px-6 md:pt-10">
+      <header className="relative overflow-hidden px-4 pb-6 pt-6 md:card md:px-10 md:py-10">
+        <div
+          aria-hidden
+          className="brand-gradient-diagonal pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full opacity-20 blur-3xl"
+        />
+        <div className="relative flex items-center gap-5 md:gap-12">
+          <Avatar profile={profile} size={140} ring className="hidden md:inline-block" />
+          <Avatar profile={profile} size={80} ring className="md:hidden" />
+
+          <section className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="truncate text-xl font-bold md:text-2xl">{profile.username}</h1>
+              {isMe ? (
+                <Link href="/settings" className="btn-secondary py-2">
+                  Edit profil
+                </Link>
+              ) : (
+                <FollowButton targetId={profile.id} following={following} />
+              )}
+            </div>
+            <div className="mt-3 hidden text-sm md:block">
+              <ProfileBio profile={profile} />
+            </div>
+            <div className="mt-5 hidden max-w-md md:block">{stats3}</div>
+          </section>
+        </div>
+
+        <div className="relative mt-4 text-sm md:hidden">
+          <ProfileBio profile={profile} />
+        </div>
+        <div className="relative mt-4 md:hidden">{stats3}</div>
+      </header>
+
+      <nav className="mt-2 flex justify-center gap-10 border-b border-border text-xs font-bold uppercase tracking-widest md:mt-6">
+        <ProfileTab href={`/${profile.username}`} active={!showSaved}>
           <Grid3x3 className="h-4 w-4" /> Post
-        </Link>
+        </ProfileTab>
         {isMe && (
-          <Link
-            href={`/${profile.username}?tab=saved`}
-            className={`-mt-px flex items-center gap-1.5 border-t py-4 ${
-              showSaved ? "border-foreground" : "border-transparent text-muted"
-            }`}
-          >
+          <ProfileTab href={`/${profile.username}?tab=saved`} active={showSaved}>
             <Bookmark className="h-4 w-4" /> Tersimpan
-          </Link>
+          </ProfileTab>
         )}
       </nav>
 
-      <PostGrid
-        posts={posts}
-        emptyText={showSaved ? "Belum ada post tersimpan" : isMe ? "Bagikan foto pertamamu" : "Belum ada post"}
-      />
+      <div className="pt-1 md:pt-4">
+        <PostGrid
+          posts={posts}
+          emptyText={showSaved ? "Belum ada post tersimpan" : isMe ? "Bagikan foto pertamamu" : "Belum ada post"}
+        />
+      </div>
     </div>
+  );
+}
+
+function ProfileTab({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`relative flex items-center gap-1.5 py-4 transition ${
+        active ? "text-foreground" : "text-muted hover:text-foreground"
+      }`}
+    >
+      {children}
+      {active && <span className="brand-gradient absolute inset-x-0 -bottom-px h-0.5 rounded-full" aria-hidden />}
+    </Link>
   );
 }
 
@@ -149,7 +160,7 @@ function ProfileBio({
   return (
     <>
       {profile.full_name && <p className="font-semibold">{profile.full_name}</p>}
-      {profile.bio && <p className="whitespace-pre-line">{profile.bio}</p>}
+      {profile.bio && <p className="mt-1 whitespace-pre-line leading-relaxed text-foreground/85">{profile.bio}</p>}
       {profile.website && (
         <a
           href={profile.website}

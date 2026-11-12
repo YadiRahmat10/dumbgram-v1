@@ -1,6 +1,4 @@
-import { Montserrat } from "next/font/google";
-
-const montserrat = Montserrat({ variable: "--font-display", subsets: ["latin"], weight: ["400", "600", "700"] });
+import { Logo } from "@/components/logo";
 
 const unsplash = (id: string) =>
   `https://images.unsplash.com/photo-${id}?w=600&q=70&auto=format&fit=crop`;
@@ -28,16 +26,11 @@ const COLUMNS: Photo[][] = [
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <main
-      className={`${montserrat.variable} theme-dark grid min-h-screen grid-cols-1 font-[family-name:var(--font-display)] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]`}
+      className="grid min-h-screen grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
     >
       <section className="flex items-center px-6 py-12 sm:px-12 lg:px-16 xl:px-24">
         <div className="w-full max-w-sm">
-          <p
-            className="text-brand-gradient w-fit pr-2 font-brand text-5xl leading-snug drop-shadow-[0_0_14px_rgba(138,141,255,0.55)]"
-            aria-label="DumbGram"
-          >
-            DumbGram
-          </p>
+          <Logo href={null} className="text-5xl" />
           <h1 className="mt-8 text-4xl font-bold leading-tight tracking-tight sm:text-[2.6rem]">
             Share your best photos or videos
           </h1>

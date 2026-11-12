@@ -52,17 +52,18 @@ async function PostDetail({ params }: Pick<PageProps<"/p/[id]">, "params">) {
   const { author } = post;
 
   const header = (
-    <div className="flex items-center gap-3 border-b border-border px-3 py-3">
+    <div className="flex items-center gap-3 border-b border-border px-4 py-3">
       <Link href={`/${author.username}`}>
         <Avatar profile={author} size={32} ring />
       </Link>
-      <Link href={`/${author.username}`} className="text-sm font-semibold hover:opacity-70">
+      <Link href={`/${author.username}`} className="text-sm font-semibold hover:text-accent">
         {author.username}
       </Link>
       {!isOwner && (
         <>
-          <span className="text-muted">•</span>
-          <FollowButton targetId={author.id} following={following} size="sm" />
+          <div className="ml-auto">
+            <FollowButton targetId={author.id} following={following} size="sm" />
+          </div>
         </>
       )}
       {isOwner && (
@@ -74,7 +75,7 @@ async function PostDetail({ params }: Pick<PageProps<"/p/[id]">, "params">) {
   );
 
   const body = (
-    <ul className="space-y-4 py-2 text-sm">
+    <ul className="space-y-5 py-3 text-sm md:px-1">
       {post.caption && (
         <li className="flex gap-3">
           <Avatar profile={author} size={32} />
@@ -112,7 +113,7 @@ async function PostDetail({ params }: Pick<PageProps<"/p/[id]">, "params">) {
       ))}
       {!post.caption && comments.length === 0 && (
         <li className="py-10 text-center">
-          <p className="text-lg font-bold">Belum ada komentar.</p>
+          <p className="text-lg font-bold">Belum ada komentar</p>
           <p className="text-muted">Mulai percakapan.</p>
         </li>
       )}
@@ -129,7 +130,7 @@ async function PostDetail({ params }: Pick<PageProps<"/p/[id]">, "params">) {
   );
 
   return (
-    <div className="mx-auto max-w-[935px] md:px-4 md:py-8">
+    <div className="mx-auto max-w-[1000px] md:px-6 md:py-10">
       <PostInteractions
         variant="detail"
         postId={post.id}
@@ -145,10 +146,10 @@ async function PostDetail({ params }: Pick<PageProps<"/p/[id]">, "params">) {
       />
 
       {others.length > 0 && (
-        <section className="mt-12 border-t border-border pt-10">
-          <h2 className="mb-4 px-3 text-sm font-semibold text-muted md:px-0">
-            Lebih banyak post dari{" "}
-            <Link href={`/${author.username}`} className="text-foreground">
+        <section className="mt-12 px-1 md:px-0">
+          <h2 className="mb-4 px-3 text-xs font-bold uppercase tracking-widest text-muted md:px-0">
+            Lebih banyak dari{" "}
+            <Link href={`/${author.username}`} className="text-brand-gradient normal-case tracking-normal">
               {author.username}
             </Link>
           </h2>

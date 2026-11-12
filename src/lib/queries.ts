@@ -1,6 +1,6 @@
 import "server-only";
 import { createClient } from "./supabase/server";
-import type { CommentWithAuthor, FeedPost, Profile } from "./types";
+import type { CommentWithAuthor, FeedPost, NotificationItem, NotificationType, Profile } from "./types";
 
 type Supabase = Awaited<ReturnType<typeof createClient>>;
 
@@ -209,4 +209,38 @@ export async function searchProfiles(term: string, limit = 30) {
     .or(`username.ilike.%${q}%,full_name.ilike.%${q}%`)
     .limit(limit);
   return (data ?? []) as Profile[];
+}
+
+const NOTIFICATION_SELECT = `
+  id, type, created_at, read_at,
+  actor:profiles!notifications_actor_id_fkey ( id, username, full_name, avatar_url ),
+  post:posts ( id, image_path ),
+  comment:comments ( body )
+`;
+
+export async function getNotifications(
+  userId: string,
+  type?: NotificationType,
+  limit = 60,
+) {
+  const supabase = await createClient();
+  let query = supabase
+    .from("notifications")
+    .select(NOTIFICATION_SELECT)
+    .eq("recipient_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (type) query = query.eq("type", type);
+  const { data } = await query;
+  return (data ?? []) as unknown as NotificationItem[];
+}
+
+export async function getUnreadNotificationCount(userId: string) {
+  const supabase = await createClient();
+  const { count } = await supabase
+    .from("notifications")
+    .select("id", { count: "exact", head: true })
+    .eq("recipient_id", userId)
+    .is("read_at", null);
+  return count ?? 0;
 }

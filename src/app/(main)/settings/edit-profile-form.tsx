@@ -44,7 +44,7 @@ export function EditProfileForm({ profile }: { profile: Profile }) {
 
   return (
     <form action={action} className="flex flex-col gap-6">
-      <div className="flex items-center gap-4 rounded-2xl bg-surface p-4">
+      <div className="gradient-border flex items-center gap-4 rounded-2xl p-4">
         {previewUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={previewUrl} alt="Pratinjau avatar" className="h-14 w-14 rounded-full object-cover" />
@@ -116,7 +116,7 @@ export function EditProfileForm({ profile }: { profile: Profile }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <label className="block">
-      <span className="mb-2 block font-semibold">{label}</span>
+      <span className="mb-2 block text-xs font-bold uppercase tracking-widest text-muted">{label}</span>
       {children}
     </label>
   );

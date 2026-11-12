@@ -34,3 +34,15 @@ export type CommentWithAuthor = {
 };
 
 export type ActionState = { error?: string; message?: string } | undefined;
+
+export type NotificationType = "follow" | "like" | "comment";
+
+export type NotificationItem = {
+  id: string;
+  type: NotificationType;
+  created_at: string;
+  read_at: string | null;
+  actor: PostAuthor;
+  post: { id: string; image_path: string } | null;
+  comment: { body: string } | null;
+};

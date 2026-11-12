@@ -10,6 +10,7 @@ Aplikasi berbagi foto ala Instagram, dibuat dengan **Next.js 16** (App Router, S
 - Like (juga double-tap pada gambar), komentar, simpan post (bookmark), salin tautan
 - Halaman profil: grid post, tab "Tersimpan", jumlah post/pengikut/mengikuti
 - Follow / unfollow, daftar pengikut & mengikuti
+- Notifikasi like, komentar, dan pengikut baru (badge real-time, filter per jenis, tombol "Ikuti balik")
 - Jelajahi (grid semua post) dan pencarian pengguna
 - Edit profil (username, nama, bio, situs web, foto profil)
 - Tautan `@mention` di caption & komentar, mode gelap otomatis, responsif (mobile & desktop)
@@ -20,14 +21,15 @@ Aplikasi berbagi foto ala Instagram, dibuat dengan **Next.js 16** (App Router, S
 supabase/
   config.toml                         # konfigurasi Supabase CLI (lokal)
   migrations/20261112000000_init_dumbgram.sql
+  migrations/20261113000000_notifications.sql
 src/
   proxy.ts                            # refresh sesi & proteksi route (pengganti middleware)
   app/
     (auth)/login, (auth)/signup
-    (main)/                           # beranda, explore, search, create, settings
+    (main)/                           # beranda, explore, search, create, settings, notifications
     (main)/[username]/                # profil, followers, following
     (main)/p/[id]/                    # detail post
-    actions/                          # server actions: auth, posts, profile
+    actions/                          # server actions: auth, posts, profile, notifications
     auth/confirm/route.ts             # callback konfirmasi email
   components/                         # UI
   lib/supabase/                       # klien Supabase (browser, server, proxy)
@@ -44,6 +46,7 @@ src/
 | `comments`    | komentar; bisa dihapus penulis atau pemilik post                 |
 | `follows`     | PK (`follower_id`, `following_id`), tidak bisa follow diri sendiri |
 | `saved_posts` | bookmark, hanya terlihat oleh pemiliknya                         |
+| `notifications` | dibuat otomatis oleh trigger saat like / komentar / follow; hilang lagi saat unlike / unfollow / komentar dihapus. Hanya terlihat oleh penerimanya, disiarkan lewat Realtime |
 
 Semua tabel memakai **Row Level Security**. Bucket storage `posts` dan `avatars` bersifat publik untuk dibaca; user hanya bisa menulis ke folder `<user_id>/` miliknya.
 

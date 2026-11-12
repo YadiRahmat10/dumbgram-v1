@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
+import { Logo } from "@/components/logo";
 
 export const metadata: Metadata = { title: "Setup" };
 
@@ -9,9 +10,9 @@ export default function SetupPage() {
 
   return (
     <main className="mx-auto flex min-h-screen max-w-xl flex-col justify-center gap-6 px-6 py-12">
-      <h1 className="font-brand text-5xl">dumbgram</h1>
+      <Logo href={null} className="text-5xl" />
       <div className="space-y-2">
-        <h2 className="text-xl font-semibold">Supabase belum dikonfigurasi</h2>
+        <h1 className="text-xl font-bold">Supabase belum dikonfigurasi</h1>
         <p className="text-muted">
           Variabel <code>NEXT_PUBLIC_SUPABASE_URL</code> dan{" "}
           <code>NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> belum diisi.
