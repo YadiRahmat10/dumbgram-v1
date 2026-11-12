@@ -65,8 +65,12 @@ export function Nav({ profile, unreadCount }: Props) {
       {/* Sidebar desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-19 flex-col border-r border-border bg-background px-3 pb-5 pt-7 md:flex xl:w-64 xl:px-4">
         <div className="mb-8 flex justify-center xl:justify-start xl:px-3">
-          <Logo className="hidden text-[32px] xl:inline-block" />
-          <Logo compact className="text-3xl xl:hidden" />
+          <div className="hidden xl:block">
+            <Logo className="text-[32px]" />
+          </div>
+          <div className="xl:hidden">
+            <Logo compact className="text-3xl" />
+          </div>
         </div>
 
         <nav className="flex flex-1 flex-col gap-1">

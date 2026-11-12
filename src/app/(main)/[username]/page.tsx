@@ -74,6 +74,16 @@ async function Profile({ params, searchParams }: PageProps<"/[username]">) {
     </ul>
   );
 
+  const action = isMe ? (
+    <Link href="/settings" className="btn-secondary w-full whitespace-nowrap py-2 md:w-auto">
+      Edit profil
+    </Link>
+  ) : (
+    <div className="[&>button]:w-full md:[&>button]:w-auto">
+      <FollowButton targetId={profile.id} following={following} />
+    </div>
+  );
+
   return (
     <div className="mx-auto max-w-[960px] md:px-6 md:pt-10">
       <header className="relative overflow-hidden px-4 pb-6 pt-6 md:card md:px-10 md:py-10">
@@ -81,21 +91,22 @@ async function Profile({ params, searchParams }: PageProps<"/[username]">) {
           aria-hidden
           className="brand-gradient-diagonal pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full opacity-20 blur-3xl"
         />
-        <div className="relative flex items-center gap-5 md:gap-12">
-          <Avatar profile={profile} size={140} ring className="hidden md:inline-block" />
-          <Avatar profile={profile} size={80} ring className="md:hidden" />
+        <div className="relative flex items-center gap-4 md:gap-12">
+          <div className="shrink-0 md:hidden">
+            <Avatar profile={profile} size={84} ring />
+          </div>
+          <div className="hidden shrink-0 md:block">
+            <Avatar profile={profile} size={140} ring />
+          </div>
 
           <section className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-4">
               <h1 className="truncate text-xl font-bold md:text-2xl">{profile.username}</h1>
-              {isMe ? (
-                <Link href="/settings" className="btn-secondary py-2">
-                  Edit profil
-                </Link>
-              ) : (
-                <FollowButton targetId={profile.id} following={following} />
-              )}
+              <div className="hidden shrink-0 md:block">{action}</div>
             </div>
+            {profile.full_name && (
+              <p className="mt-1 truncate text-sm font-medium text-foreground/80 md:hidden">{profile.full_name}</p>
+            )}
             <div className="mt-3 hidden text-sm md:block">
               <ProfileBio profile={profile} />
             </div>
@@ -103,10 +114,15 @@ async function Profile({ params, searchParams }: PageProps<"/[username]">) {
           </section>
         </div>
 
-        <div className="relative mt-4 text-sm md:hidden">
-          <ProfileBio profile={profile} />
+        <div className="relative md:hidden">
+          {(profile.bio || profile.website) && (
+            <div className="mt-4 text-sm">
+              <ProfileBio profile={profile} showName={false} />
+            </div>
+          )}
+          <div className="mt-4">{stats3}</div>
+          <div className="mt-3">{action}</div>
         </div>
-        <div className="relative mt-4 md:hidden">{stats3}</div>
       </header>
 
       <nav className="mt-2 flex justify-center gap-10 border-b border-border text-xs font-bold uppercase tracking-widest md:mt-6">
@@ -154,12 +170,14 @@ function ProfileTab({
 
 function ProfileBio({
   profile,
+  showName = true,
 }: {
   profile: { full_name: string | null; bio: string | null; website: string | null };
+  showName?: boolean;
 }) {
   return (
     <>
-      {profile.full_name && <p className="font-semibold">{profile.full_name}</p>}
+      {showName && profile.full_name && <p className="font-semibold">{profile.full_name}</p>}
       {profile.bio && <p className="mt-1 whitespace-pre-line leading-relaxed text-foreground/85">{profile.bio}</p>}
       {profile.website && (
         <a
