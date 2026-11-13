@@ -28,7 +28,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
     <main
       className="grid min-h-screen grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]"
     >
-      <section className="flex items-center px-6 py-12 sm:px-12 lg:px-16 xl:px-24">
+      <section className="flex items-center justify-center px-6 py-12 sm:px-12">
         <div className="w-full max-w-sm">
           <Logo href={null} className="text-5xl" />
           <h1 className="mt-8 text-4xl font-bold leading-tight tracking-tight sm:text-[2.6rem]">
